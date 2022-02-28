@@ -2,6 +2,7 @@ package xyz.awexxx;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -30,11 +31,24 @@ public class Events {
                 }
             else if (clicked.getType().toString() == "POLISHED_BLACKSTONE_BUTTON") {
                 Menus.displayElectricMenu(p);
+            } else if (clicked.getType().toString() == "CRIMSON_SIGN") {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    clicked.breakNaturally();
+
+                    player.playSound(player.getLocation(), Sound.AMBIENT_CAVE, 500.0f, 1.0f);
+                    player.sendTitle(p.getName() + " found a dead body!", "Who did it..", 10, 70, 20);
+                    player.setWalkSpeed(0);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 999999, 1));
+                }
             }
         }
         
         @EventHandler
         public void onPlayerDeath(PlayerDeathEvent e) throws InterruptedException {
+
+            Block block = Bukkit.getWorld("amogus").getBlockAt(e.getEntity().getLocation());
+            block.setType(Material.CRIMSON_SIGN);
+
             Location loc = new Location(Bukkit.getWorld("amogus"), 118, 34, 384);
             e.getEntity().teleport(loc);
         }
