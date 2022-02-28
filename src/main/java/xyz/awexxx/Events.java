@@ -40,6 +40,12 @@ public class Events {
                     player.setWalkSpeed(0);
                     player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 999999, 1));
                 }
+            } else if (clicked.getType().toString() == "IRON_TRAPDOOR" && Team.getTeam(e.getPlayer()).getName() == "Impostors") {
+                Bukkit.getLogger().info(clicked.getLocation().getBlockX() + " " + clicked.getLocation().getBlockY() + " " + clicked.getLocation().getBlockZ());
+                if (clicked.getLocation().getBlockX() == 135) {
+                    Location vent1 = new Location(clicked.getWorld(), 137, 34, 376);
+                    e.getPlayer().teleport(vent1);
+                }
             }
         }
         
@@ -52,11 +58,13 @@ public class Events {
             Location loc = new Location(Bukkit.getWorld("amogus"), 118, 34, 384);
             e.getEntity().teleport(loc);
         }
+
         @EventHandler
         public void onHungerDepletion(FoodLevelChangeEvent e) throws InterruptedException {
             e.setCancelled(true);
             e.setFoodLevel(20);
         }
+
         @EventHandler
         public void onEntityRegen(EntityRegainHealthEvent e) throws InterruptedException {
             e.setCancelled(true);

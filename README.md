@@ -7,7 +7,7 @@ Of course, this is no where as great as the actual Among Us. I *really* push sup
 
 ## Prequisites
 Java 17 + a~ 1.18(.1) server  
-This requires **LuckPerms** to function. This may be removed in the future with permission checks, but for now it's required.  
+This requires **LuckPerms** and **RedLib** to function. This may be removed in the future with permission checks, but for now it's required.  
 
 ## What does this offer?
 Due to it being *very* new, it's missing a *lot*. Whats planned is below, but currently;
@@ -16,13 +16,15 @@ Due to it being *very* new, it's missing a *lot*. Whats planned is below, but cu
 - some tasks, some of which are being actively recreated
 
 ## What's to come?
-This is a long list, get ready.  
+This is a long list, get ready. Anything that is crossed off has been implemented.
 Some of whats to come is;
 - Sabatoging
 - ~~Better death management~~
 - More tasks, ex. asteroids
-- Removal of manual admin check
-- Venting
+- ~~Removal of manual admin check~~
+- Venting (PARTIALLY done. Electric to MedBay)
+- ~~Reworking GUI system~~
+- Adding impostor wins
 - ..and a *lot* more. If you have any feature suggestions, open an issue.
 
 ## How do I install this?

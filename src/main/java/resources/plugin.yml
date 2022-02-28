@@ -22,8 +22,3 @@ commands:
     usage: /submit
     permission: amogus.submit
     permission-message: You do not have permission to use this command.
-  check:
-    description: Check all votes to see who has the most.
-    usage: /check
-    permission: amogus.check
-    permission-message: You do not have permission to use this command.
