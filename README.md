@@ -19,9 +19,10 @@ Due to it being *very* new, it's missing a *lot*. Whats planned is below, but cu
 This is a long list, get ready.  
 Some of whats to come is;
 - Sabatoging
-- Better death management
+- ~~Better death management~~
 - More tasks, ex. asteroids
 - Removal of manual admin check
+- Venting
 - ..and a *lot* more. If you have any feature suggestions, open an issue.
 
 ## How do I install this?
