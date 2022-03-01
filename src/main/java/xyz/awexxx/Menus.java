@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.json.JSONObject;
 
@@ -43,6 +44,13 @@ public class Menus {
     gui.destroy();
     player.closeInventory();
     player.sendMessage("Awesome, you completed your task!");
+
+    if(GameState.isState(GameState.LIGHTS_OFF)) {
+        GameState.setState(GameState.IN_GAME);
+        for (Player loop : Bukkit.getOnlinePlayers()) {
+            loop.removePotionEffect(PotionEffectType.BLINDNESS);
+        }              
+    }
 });
 
     ItemButton button4 = ItemButton.create(new ItemBuilder(Material.GRAY_CONCRETE)
@@ -60,6 +68,24 @@ public class Menus {
         return gui;
     } 
 
+    public static InventoryGUI createSabMenu(Player executor) {
+        InventoryGUI gui = new InventoryGUI(Bukkit.createInventory(null, 9, "Sabotage"));
+
+        ItemButton lightsCont = ItemButton.create(new ItemBuilder(Material.REDSTONE_LAMP)
+        .setName("Shut the lights!"), e -> {
+            executor.closeInventory();
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                if (!player.getName().equals(player.getName())) {
+                    player.sendTitle("The lights are out!", "Turn them back on!", 10, 70, 20);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 999999, 1));
+                }
+            }
+        });
+
+        gui.addButton(lightsCont, 0);
+        return gui;
+    }
+
     public static void displayVotingMenu(Player player) {
         InventoryGUI gui = createVotingMenu();
         gui.open(player);
@@ -67,6 +93,11 @@ public class Menus {
 
     public static void displayElectricMenu(Player player) {
         InventoryGUI gui = createElectricMenu(player);
+        gui.open(player);
+    }
+
+    public static void displaySaboMenu(Player player) {
+        InventoryGUI gui = createSabMenu(player);
         gui.open(player);
     }
     
@@ -88,7 +119,6 @@ public class Menus {
 
                 player.setWalkSpeed(0.2f);
                 player.removePotionEffect(PotionEffectType.BLINDNESS);
-
             });
 
             gui.addButton(button, i);

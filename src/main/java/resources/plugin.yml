@@ -1,7 +1,7 @@
 name: mcimpos
 main: xyz.awexxx.App
 description: MCImpos - Among Us, but in Minecraft
-version: 0.1
+version: 0.1.3
 website: https://github.com/awexthedev/SheepPenetrator
 depend: [LuckPerms]
 authors: [awex]
@@ -21,4 +21,9 @@ commands:
     description: Open a GUI to submit your vote.
     usage: /submit
     permission: amogus.submit
+    permission-message: You do not have permission to use this command.
+  sabotage:
+    description: As an impostor, sabotage other players.
+    usage: /sabotage
+    permission: amogus.sabotage
     permission-message: You do not have permission to use this command.

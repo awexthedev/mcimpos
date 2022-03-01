@@ -44,6 +44,8 @@ public class Game {
 
             player.setWalkSpeed(0.2f);
             player.removePotionEffect(PotionEffectType.BLINDNESS);
+            player.getInventory().clear();
+
             Voting.clearVotes();
 
             player.setGameMode(GameMode.SURVIVAL);

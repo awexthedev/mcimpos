@@ -16,6 +16,7 @@ public class App extends JavaPlugin {
         this.getCommand("startg").setExecutor(new CommandStart());
         this.getCommand("endg").setExecutor(new CommandStop());
         this.getCommand("submit").setExecutor(new CommandSubmit());
+        this.getCommand("sabotage").setExecutor(new CommandSabatoge());
 
         try {
             UpdateChecker.checkForUpdates();
@@ -62,6 +63,18 @@ public class App extends JavaPlugin {
         public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
             Player p = (Player) sender;
             Menus.displayVotingMenu(p);
+            return true;
+        }
+    }
+
+    public class CommandSabatoge implements CommandExecutor {
+        @Override
+        public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+            Player p = (Player) sender;
+            if(Team.getTeam(p).getName() == "Impostors") {
+                Menus.displaySaboMenu(p);
+            } else p.sendMessage("You are not an impostor!");
+
             return true;
         }
     }
