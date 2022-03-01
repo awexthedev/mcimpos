@@ -4,6 +4,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.io.IOException;
+
 import org.bukkit.command.Command;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -14,6 +16,12 @@ public class App extends JavaPlugin {
         this.getCommand("startg").setExecutor(new CommandStart());
         this.getCommand("endg").setExecutor(new CommandStop());
         this.getCommand("submit").setExecutor(new CommandSubmit());
+
+        try {
+            UpdateChecker.checkForUpdates();
+        } catch (IOException e) {
+            getLogger().warning("Something went wrong when checking for updates. Please do this manually; https://github.com/awexthedev/mcimpos.");
+        }
 
         // Events
         getServer().getPluginManager().registerEvents(new Events.EventListener(), this);
