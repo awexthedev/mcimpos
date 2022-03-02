@@ -25,6 +25,7 @@ Some of whats to come is;
 - Venting (PARTIALLY done. Electric to MedBay)
 - ~~Reworking GUI system~~
 - Adding impostor wins
+- Adding crewmate wins
 - ..and a *lot* more. If you have any feature suggestions, open an issue.
 
 ## How do I install this?

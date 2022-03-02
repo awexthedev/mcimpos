@@ -23,8 +23,8 @@ public class Voting {
                         Bukkit.broadcastMessage(player.getName() + " was the impostor!");
                         Game.stop();
                     } else {
-                        player.setGameMode(GameMode.SPECTATOR);
-                        Bukkit.broadcastMessage(player.getName() + " was NOT the impostor!");
+                        player.setHealth(0);
+                        ChatUtils.sendAllTitleMessage(player.getName() + " was NOT the impostor!", "Look harder!");
                     }
                 } else Bukkit.getPlayer("thatoneawex").sendMessage("Not enough votes.");
             }

@@ -76,7 +76,7 @@ public class Menus {
             executor.closeInventory();
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (!player.getName().equals(player.getName())) {
-                    player.sendTitle("The lights are out!", "Turn them back on!", 10, 70, 20);
+                    player.sendTitle("The lights are out!", "Turn them back on via Electrical!", 10, 70, 20);
                     player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 999999, 1));
                 }
             }
@@ -118,6 +118,7 @@ public class Menus {
                 player.closeInventory();
 
                 player.setWalkSpeed(0.2f);
+                player.setFlySpeed(0.1f);
                 player.removePotionEffect(PotionEffectType.BLINDNESS);
             });
 

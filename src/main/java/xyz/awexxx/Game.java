@@ -34,7 +34,7 @@ public class Game {
                 inventory.addItem(new ItemStack(Material.IRON_SWORD));
             } 
             
-            player.sendTitle("You are on " + Team.getTeam(player).getName() + "!", "Who did it..", 10, 70, 20);
+            ChatUtils.sendAllTitleMessage("You are on " + Team.getTeam(player).getName() + "!", "Who did it..");
         }
     }
 
