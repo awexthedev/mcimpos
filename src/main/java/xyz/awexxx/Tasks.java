@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.json.JSONArray;
@@ -16,6 +17,7 @@ public class Tasks {
     private static List<String> allTasks = new ArrayList<String>();
     private static HashMap<Player, String> activeTasks = new HashMap<Player, String>();
     private static HashMap<Player, JSONArray> completedTasks = new HashMap<Player, JSONArray>();
+    private static Integer count = 0;
 
     public Tasks(String taskName) {
         allTasks.add(taskName);
@@ -47,27 +49,21 @@ public class Tasks {
     }
 
     public static boolean isActive(Player player, String task) {
-        String s = activeTasks.get(player);
-        if(task.equals("Get scanned in Medbay!")) {
-            if(!s.equals("Get scanned in Medbay!")) return false;
-        } else if (task.equals("Tie up in Electrical!")) {
-            if(!s.equals("Tie up in Electrical!")) return false;
-        } else if (task.equals("Clear the garbage!")) {
-            if(!s.equals("Clear the garbage!")) return false;
-        }
-
-        return true;
+        String s = activeTasks.get(player).toString();
+        if(s.contains(task)) return true;
+        else return false;
     }
 
     public static String completeTask(Player player, String task) {
         if (completedTasks.get(player) == null) {
             JSONArray arr = new JSONArray();
             completedTasks.put(player, arr.put(task));
+            checkIfComplete();
         } else {
             JSONArray arr = new JSONArray(completedTasks.get(player));
             completedTasks.put(player, arr.put(task.toString()));
 
-            if(arr.length() == 3) {
+            if(arr.length() == 3 && checkIfComplete() == false) {
                 ChatUtils.sendAllTitleMessage(player.getName() + " completed all tasks!", "Go faster!");
 
                 player.setGameMode(GameMode.SPECTATOR);
@@ -76,6 +72,26 @@ public class Tasks {
         }
 
         return randomTask(player);
+    }
+
+    public static boolean checkIfComplete() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            JSONArray arr = completedTasks.get(player);
+            Bukkit.getLogger().info(arr.toString());
+
+            if (arr.length() == 3) {
+                count++;
+            }
+        }
+
+        if(count == Bukkit.getOnlinePlayers().size()) {
+            count = 0;
+            ChatUtils.sendAllTitleMessage("All crewmates have completed every task!", "Better luck next time, Imposter!");
+            Game.stop();
+            return true;
+        }
+
+        return false;
     }
 
     public static JSONArray getAllCompletedTasks(Player player) {

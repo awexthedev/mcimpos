@@ -64,7 +64,7 @@ public class App extends JavaPlugin {
         @Override
         public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
             Player p = (Player) sender;
-            Menus.displayVotingMenu(p);
+            if (GameState.isState(GameState.IN_GAME)) Menus.displayVotingMenu(p);
             return true;
         }
     }
@@ -73,7 +73,7 @@ public class App extends JavaPlugin {
         @Override
         public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
             Player p = (Player) sender;
-            if(Team.getTeam(p).getName() == "Impostors") {
+            if(Team.getTeam(p).getName() == "Impostors" && GameState.isState(GameState.IN_GAME)) {
                 Menus.displaySaboMenu(p);
             } else p.sendMessage("You are not an impostor!");
 

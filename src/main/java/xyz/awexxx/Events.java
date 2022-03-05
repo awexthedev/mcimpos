@@ -33,7 +33,7 @@ public class Events {
                     player.setFlySpeed(0);
                     player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 999999, 1));
                 }
-            else if (clicked.getType().toString() == "POLISHED_BLACKSTONE_BUTTON" && GameState.isState(GameState.IN_GAME)) {
+            else if (clicked.getType().toString() == "POLISHED_BLACKSTONE_BUTTON" && GameState.isState(GameState.IN_GAME) && Tasks.isActive(p, "Tie up in Electrical!")) {
                 Menus.displayElectricMenu(p);
             } else if (clicked.getType().toString() == "CRIMSON_SIGN" && GameState.isState(GameState.IN_GAME)) {
                 for (Player player : Bukkit.getOnlinePlayers()) {
@@ -51,7 +51,7 @@ public class Events {
                     Location vent1 = new Location(clicked.getWorld(), 137, 34, 376);
                     e.getPlayer().teleport(vent1);
                 }
-            } else if (clicked.getType().toString() == "GREEN_STAINED_GLASS" && GameState.isState(GameState.IN_GAME)) {
+            } else if (clicked.getType().toString() == "GREEN_STAINED_GLASS" && GameState.isState(GameState.IN_GAME) && Tasks.isActive(p, "Get scanned in Medbay!")) {
                 ChatUtils.sendToOne("Scanning..", "Please Wait!", p);
                 p.setWalkSpeed(0);
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("mcimpos"), new Runnable() { 
@@ -61,7 +61,7 @@ public class Events {
                         Tasks.completeTask(p, "Get scanned in Medbay!");
                     } 
                 }, 20 * 5);
-            } else if (clicked.getType().toString() == "LEVER" && GameState.isState(GameState.IN_GAME)) {
+            } else if (clicked.getType().toString() == "LEVER" && GameState.isState(GameState.IN_GAME) && Tasks.isActive(p, "Clear the garbage!")) {
                 Menus.displayGarbMenu(p);
             }
         }
