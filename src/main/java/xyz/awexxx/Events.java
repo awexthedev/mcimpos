@@ -23,8 +23,6 @@ public class Events {
             Player p = e.getPlayer();
             Block clicked = e.getClickedBlock();
 
-            Bukkit.getLogger().info(clicked.getType().toString());
-
             if (clicked.getType().toString() == "ACACIA_BUTTON" && GameState.isState(GameState.IN_GAME))
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     player.playSound(player.getLocation(), Sound.AMBIENT_CAVE, 500.0f, 1.0f);
@@ -46,7 +44,6 @@ public class Events {
                     player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 999999, 1));
                 }
             } else if (clicked.getType().toString() == "IRON_TRAPDOOR" && Team.getTeam(e.getPlayer()).getName() == "Impostors" && GameState.isState(GameState.IN_GAME)) {
-                Bukkit.getLogger().info(clicked.getLocation().getBlockX() + " " + clicked.getLocation().getBlockY() + " " + clicked.getLocation().getBlockZ());
                 if (clicked.getLocation().getBlockX() == 135) {
                     Location vent1 = new Location(clicked.getWorld(), 137, 34, 376);
                     e.getPlayer().teleport(vent1);
