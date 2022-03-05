@@ -8,6 +8,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -21,6 +22,8 @@ public class Events {
         public void onPlayerInteract(PlayerInteractEvent e) throws InterruptedException {
             Player p = e.getPlayer();
             Block clicked = e.getClickedBlock();
+
+            Bukkit.getLogger().info(clicked.getType().toString());
 
             if (clicked.getType().toString() == "ACACIA_BUTTON" && GameState.isState(GameState.IN_GAME))
                 for (Player player : Bukkit.getOnlinePlayers()) {
@@ -48,23 +51,40 @@ public class Events {
                     Location vent1 = new Location(clicked.getWorld(), 137, 34, 376);
                     e.getPlayer().teleport(vent1);
                 }
+            } else if (clicked.getType().toString() == "GREEN_STAINED_GLASS" && GameState.isState(GameState.IN_GAME) && Tasks.isActive(p, "medbay")) {
+                ChatUtils.sendToOne("Scanning..", "Please Wait!", p);
+                p.setWalkSpeed(0);
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("mcimpos"), new Runnable() { 
+                    public void run() { 
+                        p.setWalkSpeed(0.2f); 
+                        ChatUtils.sendToOne("Complete!", "Continue with your tasks..", p);
+                        Tasks.completeTask(p, "medbay");
+                    } 
+                }, 20 * 5);
+            } else if (clicked.getType().toString() == "LEVER" && GameState.isState(GameState.IN_GAME)) {
+                Menus.displayGarbMenu(p);
             }
         }
         
         @EventHandler
         public void onPlayerDeath(PlayerDeathEvent e) throws InterruptedException {
-            Team.getTeam(e.getEntity()).remove(e.getEntity());
+            if(GameState.isState(GameState.IN_GAME)) {
+                Team.getTeam(e.getEntity()).remove(e.getEntity());
 
-            if(Team.getTeam("Crewmates").getName().length() == 0) {
-                ChatUtils.sendAllTitleMessage("The impostors win!", "Crewmates, do better!");
-                Game.stop();
+                if(Team.getTeam("Crewmates").getName().length() == 0) {
+                    ChatUtils.sendAllTitleMessage("The impostors win!", "Crewmates, do better!");
+                    Game.stop();
+                } else {
+                    Block block = Bukkit.getWorld("amogus").getBlockAt(e.getEntity().getLocation());
+                    block.setType(Material.CRIMSON_SIGN);
+        
+                    Location loc = new Location(Bukkit.getWorld("amogus"), 118, 34, 384);
+                    e.getEntity().teleport(loc);
+                }
+            } else {
+                Location loc = new Location(Bukkit.getWorld("amogus"), 118, 34, 384);
+                e.getEntity().teleport(loc);
             }
-
-            Block block = Bukkit.getWorld("amogus").getBlockAt(e.getEntity().getLocation());
-            block.setType(Material.CRIMSON_SIGN);
-
-            Location loc = new Location(Bukkit.getWorld("amogus"), 118, 34, 384);
-            e.getEntity().teleport(loc);
         }
 
         @EventHandler
@@ -77,6 +97,16 @@ public class Events {
         public void onEntityRegen(EntityRegainHealthEvent e) throws InterruptedException {
             e.setCancelled(true);
             e.setAmount(20);
+        }
+
+        @EventHandler
+        public void onPlayerDamage(EntityDamageByEntityEvent e) throws InterruptedException {
+            Player damaged = (Player) e.getEntity();
+            Player damager = (Player) e.getDamager();
+
+            if (Team.getTeam(damaged).getName().equals(Team.getTeam(damager).getName())) {
+                e.setCancelled(true);
+            }
         }
     }
 }

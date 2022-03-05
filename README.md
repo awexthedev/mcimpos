@@ -18,13 +18,13 @@ Due to it being *very* new, it's missing a *lot*. Whats planned is below, but cu
 ## What's to come?
 This is a long list, get ready. Anything that is crossed off has been implemented.
 Some of whats to come is;
-- Sabatoging
+- ~~Sabatoging~~
 - ~~Better death management~~
 - More tasks, ex. asteroids
 - ~~Removal of manual admin check~~
 - Venting (PARTIALLY done. Electric to MedBay)
 - ~~Reworking GUI system~~
-- Adding impostor wins
+- ~~Adding impostor wins~~
 - Adding crewmate wins
 - ..and a *lot* more. If you have any feature suggestions, open an issue.
 

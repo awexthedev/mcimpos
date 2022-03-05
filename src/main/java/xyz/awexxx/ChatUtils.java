@@ -9,4 +9,8 @@ public class ChatUtils {
             player.sendTitle(title, subtitle, 10, 70, 20);
         }
     }
+
+    public static void sendToOne(String title, String subtitle, Player sendto) {
+        sendto.sendTitle(title, subtitle, 10, 70, 20);
+    }
 }

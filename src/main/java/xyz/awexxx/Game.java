@@ -16,12 +16,21 @@ public class Game {
         new Team("Crewmates");
         new Team("Impostors");
 
+        // New Tasks
+        new Tasks("Tie up in Electrical!");
+        // new Tasks("Hit the asteroids!");
+        new Tasks("Clear the garbage!");
+        new Tasks("Get scanned in Medbay!");
+
         GameState.setState(GameState.IN_GAME);
 
         int i = 0;
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.setWalkSpeed(0.2f);
             player.setHealth(0.5f);
+            player.removePotionEffect(PotionEffectType.BLINDNESS);
+            player.getInventory().clear();
+    
             Location loc = new Location(Bukkit.getWorld("amogus"), 118, 34, 384);
             player.teleport(loc);
 
@@ -29,7 +38,11 @@ public class Game {
                 i = 0;
             Team.getTeam(Team.getAllTeams().get(i++).getName()).add(player);
 
-            if(Team.getTeam(player).getName() == "Impostors") {
+            // Assign Tasks to crewmates
+            if(Team.getTeam(player).getName() == "Crewmates") {
+                Tasks.assignTask(player);
+                player.sendMessage("You have been assigned " + Tasks.getAllActiveTasks(player).toString());
+            } else if(Team.getTeam(player).getName() == "Impostors") {
                 PlayerInventory inventory = player.getInventory();
                 inventory.addItem(new ItemStack(Material.IRON_SWORD));
             } 
@@ -47,6 +60,7 @@ public class Game {
             player.getInventory().clear();
 
             Voting.clearVotes();
+            Tasks.clearTasks();
 
             player.setGameMode(GameMode.SURVIVAL);
             Team.getTeam(player).remove(player);

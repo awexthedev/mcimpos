@@ -14,6 +14,7 @@ import redempt.redlib.inventorygui.ItemButton;
 import redempt.redlib.itemutils.ItemBuilder;
 
 public class Menus {
+    private static Integer i = 0;
     public static InventoryGUI createVotingMenu() {
         InventoryGUI gui = new InventoryGUI(Bukkit.createInventory(null, 9, "Vote for someone!"));
         addPlayers(gui);
@@ -43,7 +44,7 @@ public class Menus {
     .setName("Wire"), e -> {
     gui.destroy();
     player.closeInventory();
-    player.sendMessage("Awesome, you completed your task!");
+    Tasks.completeTask(player, "electrical");
 
     if(GameState.isState(GameState.LIGHTS_OFF)) {
         GameState.setState(GameState.IN_GAME);
@@ -86,6 +87,27 @@ public class Menus {
         return gui;
     }
 
+    public static InventoryGUI createGarbMenu(Player executor) {
+        InventoryGUI gui = new InventoryGUI(Bukkit.createInventory(null, 9, "Sabotage"));
+
+        ItemButton button1 = ItemButton.create(new ItemBuilder(Material.GREEN_CONCRETE)
+        .setLore("Click 4 times!")
+        .setName("Garbage"), e -> {
+            i++;
+
+            if(i.equals(4)) {
+                i = 0;
+                gui.destroy();
+                executor.closeInventory();
+
+                Tasks.completeTask(executor, "garbage");
+            }
+    });
+
+        gui.addButton(button1, 0);
+        return gui;
+    }
+
     public static void displayVotingMenu(Player player) {
         InventoryGUI gui = createVotingMenu();
         gui.open(player);
@@ -93,6 +115,11 @@ public class Menus {
 
     public static void displayElectricMenu(Player player) {
         InventoryGUI gui = createElectricMenu(player);
+        gui.open(player);
+    }
+
+    public static void displayGarbMenu(Player player) {
+        InventoryGUI gui = createGarbMenu(player);
         gui.open(player);
     }
 
@@ -106,7 +133,7 @@ public class Menus {
         for (Player player : Bukkit.getOnlinePlayers()) {
             ItemStack myAwesomeSkull = new ItemStack(Material.LEGACY_SKULL_ITEM, 1, (short) 3);
             SkullMeta myAwesomeSkullMeta = (SkullMeta) myAwesomeSkull.getItemMeta();
-            myAwesomeSkullMeta.setOwner(player.getName());
+            myAwesomeSkullMeta.setOwningPlayer(player);
             myAwesomeSkull.setItemMeta(myAwesomeSkullMeta);
             
             ItemButton button = ItemButton.create(new ItemBuilder(myAwesomeSkull)

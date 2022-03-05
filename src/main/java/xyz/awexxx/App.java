@@ -19,19 +19,21 @@ public class App extends JavaPlugin {
         this.getCommand("sabotage").setExecutor(new CommandSabatoge());
 
         try {
-            UpdateChecker.checkForUpdates();
+            if (UpdateChecker.checkForUpdates() == false) {
+                getLogger().warning("I was not able to properly check for updates. The API is likely offline. Please check the GitHub repo manually; https://github.com/awexthedev/mcimpos");
+            } else getLogger().info("[MCImpos] Up to date! Moving on!");
         } catch (IOException e) {
             getLogger().warning("Something went wrong when checking for updates. Please do this manually; https://github.com/awexthedev/mcimpos.");
         }
 
         // Events
         getServer().getPluginManager().registerEvents(new Events.EventListener(), this);
-        getLogger().info("AMOGUS Plugin has launched!");
+        getLogger().info("MCImpos Plugin has launched!");
     }
 
     @Override
     public void onDisable() {
-        getLogger().info("AMOGUS Plugin has stopped!");
+        getLogger().info("MCImpos Plugin has stopped!");
     }
 
     public class CommandStart implements CommandExecutor {
