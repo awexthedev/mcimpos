@@ -51,14 +51,14 @@ public class Events {
                     Location vent1 = new Location(clicked.getWorld(), 137, 34, 376);
                     e.getPlayer().teleport(vent1);
                 }
-            } else if (clicked.getType().toString() == "GREEN_STAINED_GLASS" && GameState.isState(GameState.IN_GAME) && Tasks.isActive(p, "medbay")) {
+            } else if (clicked.getType().toString() == "GREEN_STAINED_GLASS" && GameState.isState(GameState.IN_GAME)) {
                 ChatUtils.sendToOne("Scanning..", "Please Wait!", p);
                 p.setWalkSpeed(0);
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Bukkit.getPluginManager().getPlugin("mcimpos"), new Runnable() { 
                     public void run() { 
                         p.setWalkSpeed(0.2f); 
                         ChatUtils.sendToOne("Complete!", "Continue with your tasks..", p);
-                        Tasks.completeTask(p, "medbay");
+                        Tasks.completeTask(p, "Get scanned in Medbay!");
                     } 
                 }, 20 * 5);
             } else if (clicked.getType().toString() == "LEVER" && GameState.isState(GameState.IN_GAME)) {

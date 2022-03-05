@@ -5,9 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.json.JSONArray;
+
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class Tasks {
     private static List<String> allTasks = new ArrayList<String>();
@@ -21,31 +24,38 @@ public class Tasks {
     public static String randomTask(Player player) {
         Random rand = new Random();
         String newTask = allTasks.get(rand.nextInt(2 - 0 + 1) + 0);
-        player.sendMessage("Great job! You have now been assigned " + newTask);
+
+        if(completedTasks.get(player) == null) return newTask;
+        if(completedTasks.get(player).length() == 3) return "done";
+
+        if (completedTasks.get(player).length() != 3) {
+            if (completedTasks.get(player).toString().contains(newTask)) {
+                return randomTask(player);
+            }
+        }
+
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(newTask));
         return newTask;
     }
 
     public static boolean assignTask(Player player) {
-        activeTasks.put(player, randomTask(player));
+        String s = randomTask(player);
+        if(s.equals("done")) return false;
+        
+        activeTasks.put(player, s);
         return true;
     }
 
     public static boolean isActive(Player player, String task) {
         String s = activeTasks.get(player);
-        if (task.equals("medbay")) {
-            if (!s.equals("Get scanned in Medbay!")) {
-                return false;
-            }
-        } else if (task.equals("electrical")) {
-            if (!s.equals("Tie up in Electrical!")) {
-                return false;
-            }
-        } else if (task.equals("garbage")) {
-            if (!s.equals("Clear the garbage!")) {
-                return false;
-            }
+        if(task.equals("Get scanned in Medbay!")) {
+            if(!s.equals("Get scanned in Medbay!")) return false;
+        } else if (task.equals("Tie up in Electrical!")) {
+            if(!s.equals("Tie up in Electrical!")) return false;
+        } else if (task.equals("Clear the garbage!")) {
+            if(!s.equals("Clear the garbage!")) return false;
         }
-        
+
         return true;
     }
 
@@ -53,11 +63,16 @@ public class Tasks {
         if (completedTasks.get(player) == null) {
             JSONArray arr = new JSONArray();
             completedTasks.put(player, arr.put(task));
-            Bukkit.getLogger().info(arr.toString());
         } else {
             JSONArray arr = new JSONArray(completedTasks.get(player));
             completedTasks.put(player, arr.put(task.toString()));
-            Bukkit.getLogger().info(arr.toString());
+
+            if(arr.length() == 3) {
+                ChatUtils.sendAllTitleMessage(player.getName() + " completed all tasks!", "Go faster!");
+
+                player.setGameMode(GameMode.SPECTATOR);
+                Team.getTeam(player).remove(player);
+            }
         }
 
         return randomTask(player);

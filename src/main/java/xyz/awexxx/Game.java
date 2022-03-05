@@ -9,6 +9,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+
 public class Game {
     private static boolean canStart = false;
 
@@ -28,6 +31,7 @@ public class Game {
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.setWalkSpeed(0.2f);
             player.setHealth(0.5f);
+            player.setGameMode(GameMode.SURVIVAL);
             player.removePotionEffect(PotionEffectType.BLINDNESS);
             player.getInventory().clear();
     
@@ -41,7 +45,7 @@ public class Game {
             // Assign Tasks to crewmates
             if(Team.getTeam(player).getName() == "Crewmates") {
                 Tasks.assignTask(player);
-                player.sendMessage("You have been assigned " + Tasks.getAllActiveTasks(player).toString());
+                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Tasks.getAllActiveTasks(player).toString()));
             } else if(Team.getTeam(player).getName() == "Impostors") {
                 PlayerInventory inventory = player.getInventory();
                 inventory.addItem(new ItemStack(Material.IRON_SWORD));
@@ -61,7 +65,7 @@ public class Game {
 
             Voting.clearVotes();
             Tasks.clearTasks();
-
+            
             player.setGameMode(GameMode.SURVIVAL);
             Team.getTeam(player).remove(player);
             player.sendMessage("Successfully removed from team " + Team.getTeam(player).getName());

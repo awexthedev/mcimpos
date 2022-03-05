@@ -1,7 +1,7 @@
 name: mcimpos
 main: xyz.awexxx.App
 description: MCImpos - Among Us, but in Minecraft
-version: 0.1.4
+version: 0.1.5
 website: https://github.com/awexthedev/SheepPenetrator
 depend: [LuckPerms]
 authors: [awex]

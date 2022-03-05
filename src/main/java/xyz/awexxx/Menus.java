@@ -44,7 +44,7 @@ public class Menus {
     .setName("Wire"), e -> {
     gui.destroy();
     player.closeInventory();
-    Tasks.completeTask(player, "electrical");
+    Tasks.completeTask(player, "Tie up in Electrical!");
 
     if(GameState.isState(GameState.LIGHTS_OFF)) {
         GameState.setState(GameState.IN_GAME);
@@ -88,7 +88,7 @@ public class Menus {
     }
 
     public static InventoryGUI createGarbMenu(Player executor) {
-        InventoryGUI gui = new InventoryGUI(Bukkit.createInventory(null, 9, "Sabotage"));
+        InventoryGUI gui = new InventoryGUI(Bukkit.createInventory(null, 9, "Garbage"));
 
         ItemButton button1 = ItemButton.create(new ItemBuilder(Material.GREEN_CONCRETE)
         .setLore("Click 4 times!")
@@ -100,7 +100,7 @@ public class Menus {
                 gui.destroy();
                 executor.closeInventory();
 
-                Tasks.completeTask(executor, "garbage");
+                Tasks.completeTask(executor, "Clear the garbage!");
             }
     });
 
