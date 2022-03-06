@@ -21,7 +21,7 @@ public class Game {
 
         // New Tasks
         new Tasks("Tie up in Electrical!");
-        // new Tasks("Hit the asteroids!");
+        new Tasks("Hit the asteroids!");
         new Tasks("Clear the garbage!");
         new Tasks("Get scanned in Medbay!");
 

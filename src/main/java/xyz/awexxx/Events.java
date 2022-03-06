@@ -23,6 +23,8 @@ public class Events {
             Player p = e.getPlayer();
             Block clicked = e.getClickedBlock();
 
+            // Bukkit.getLogger().info(clicked.getType().toString());
+            
             if (clicked.getType().toString() == "ACACIA_BUTTON" && GameState.isState(GameState.IN_GAME))
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     player.playSound(player.getLocation(), Sound.AMBIENT_CAVE, 500.0f, 1.0f);
@@ -60,6 +62,8 @@ public class Events {
                 Tasks.completeTask(p, "Get scanned in Medbay!");
             } else if (clicked.getType().toString() == "LEVER" && GameState.isState(GameState.IN_GAME) && Tasks.isActive(p, "Clear the garbage!")) {
                 Menus.displayGarbMenu(p);
+            } else if (clicked.getType().toString() == "LIME_STAINED_GLASS_PANE" && GameState.isState(GameState.IN_GAME) && Tasks.isActive(p, "Hit the asteroids!")) {
+                Menus.displayAstMenu(p);
             }
         }
         

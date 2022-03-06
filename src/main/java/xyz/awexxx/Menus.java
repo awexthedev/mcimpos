@@ -1,5 +1,7 @@
 package xyz.awexxx;
 
+import java.util.Random;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -15,9 +17,9 @@ import redempt.redlib.itemutils.ItemBuilder;
 
 public class Menus {
     private static Integer i = 0;
-    public static InventoryGUI createVotingMenu() {
+    public static InventoryGUI createVotingMenu(Player player) {
         InventoryGUI gui = new InventoryGUI(Bukkit.createInventory(null, 9, "Vote for someone!"));
-        addPlayers(gui);
+        addPlayers(gui, player);
         return gui;
     }
 
@@ -44,6 +46,7 @@ public class Menus {
     .setName("Wire"), e -> {
     gui.destroy();
     player.closeInventory();
+    ChatUtils.sendToOne("Complete!", "Continue with your tasks..", player);
     Tasks.completeTask(player, "Tie up in Electrical!");
 
     if(GameState.isState(GameState.LIGHTS_OFF)) {
@@ -95,11 +98,12 @@ public class Menus {
         .setName("Garbage"), e -> {
             i++;
 
-            if(i.equals(4)) {
+            if(i.equals(5)) {
                 i = 0;
                 gui.destroy();
                 executor.closeInventory();
 
+                ChatUtils.sendToOne("Complete!", "Continue with your tasks..", executor);
                 Tasks.completeTask(executor, "Clear the garbage!");
             }
     });
@@ -108,8 +112,14 @@ public class Menus {
         return gui;
     }
 
+    public static InventoryGUI createAstMenu(Player executor) {
+        InventoryGUI gui = new InventoryGUI(Bukkit.createInventory(null, 27, "Asteroids"));
+        addAsteroids(gui, executor);
+        return gui;
+    }
+
     public static void displayVotingMenu(Player player) {
-        InventoryGUI gui = createVotingMenu();
+        InventoryGUI gui = createVotingMenu(player);
         gui.open(player);
     }
 
@@ -127,9 +137,15 @@ public class Menus {
         InventoryGUI gui = createSabMenu(player);
         gui.open(player);
     }
+
+    public static void displayAstMenu(Player player) {
+        InventoryGUI gui = createAstMenu(player);
+        gui.open(player);
+    }
+
+    private static Integer count = 0;
     
-    public static void addPlayers(InventoryGUI gui) {
-        int i = 0;
+    public static void addPlayers(InventoryGUI gui, Player p) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             ItemStack myAwesomeSkull = new ItemStack(Material.LEGACY_SKULL_ITEM, 1, (short) 3);
             SkullMeta myAwesomeSkullMeta = (SkullMeta) myAwesomeSkull.getItemMeta();
@@ -144,6 +160,8 @@ public class Menus {
                 gui.destroy();
                 player.closeInventory();
 
+                ChatUtils.sendToOne("Complete!", "Continue with your tasks..", p);
+
                 player.setWalkSpeed(0.2f);
                 player.setFlySpeed(0.1f);
                 player.removePotionEffect(PotionEffectType.BLINDNESS);
@@ -152,5 +170,27 @@ public class Menus {
             gui.addButton(button, i);
             i++;
         }
+    }
+
+    public static void addAsteroids(InventoryGUI gui, Player p) {
+            ItemButton buttons = ItemButton.create(new ItemBuilder(Material.GREEN_CONCRETE)
+            .setLore("Click me!")
+            .setName("Asteroid"), e -> {
+                count++;
+
+                if(count == 5) {
+                    count = 0;
+                    gui.destroy();
+                    p.closeInventory();
+
+                    ChatUtils.sendToOne("Complete!", "Continue with your tasks..", p);
+                    Tasks.completeTask(p, "Hit the asteroids!");
+                } else {
+                    addAsteroids(gui, p);
+                }
+        });
+
+        Random rand = new Random();
+        gui.addButton(buttons, rand.nextInt(26 - 0 + 1) + 0);
     }
 }
