@@ -55,9 +55,9 @@ public class Events {
                     public void run() { 
                         p.setWalkSpeed(0.2f); 
                         ChatUtils.sendToOne("Complete!", "Continue with your tasks..", p);
-                        Tasks.completeTask(p, "Get scanned in Medbay!");
                     } 
                 }, 20 * 5);
+                Tasks.completeTask(p, "Get scanned in Medbay!");
             } else if (clicked.getType().toString() == "LEVER" && GameState.isState(GameState.IN_GAME) && Tasks.isActive(p, "Clear the garbage!")) {
                 Menus.displayGarbMenu(p);
             }

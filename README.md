@@ -10,22 +10,14 @@ Java 17 + a~ 1.18(.1) server
 This requires **LuckPerms** and **RedLib** to function. This may be removed in the future with permission checks, but for now it's required.  
 
 ## What does this offer?
-Due to it being *very* new, it's missing a *lot*. Whats planned is below, but currently;
-- teams, built for parties around 5 at the moment
-- starting/stopping games via LuckPerms integration
-- some tasks, some of which are being actively recreated
+Core Among Us functions have been implemented into this plugin.  
+This includes tasks, a sabotaging method (lights), kills and of course winning.  
+Coming will include viewable stats and better managed systems. However, it is workable.
 
 ## What's to come?
 This is a long list, get ready. Anything that is crossed off has been implemented.
 Some of whats to come is;
-- ~~Sabatoging~~
-- ~~Better death management~~
-- ~~More tasks, ex. asteroids~~
-- ~~Removal of manual admin check~~
 - Venting (PARTIALLY done. Electric to MedBay)
-- ~~Reworking GUI system~~
-- ~~Adding impostor wins~~
-- ~~Adding crewmate wins~~
 - ..and a *lot* more. If you have any feature suggestions, open an issue.
 
 ## How do I install this?

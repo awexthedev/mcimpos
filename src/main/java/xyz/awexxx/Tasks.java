@@ -37,6 +37,8 @@ public class Tasks {
         }
 
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(newTask));
+        activeTasks.remove(player);
+        activeTasks.put(player, newTask);
         return newTask;
     }
 
@@ -78,6 +80,7 @@ public class Tasks {
         for (Player player : Bukkit.getOnlinePlayers()) {
             JSONArray arr = completedTasks.get(player);
 
+            Bukkit.getLogger().info(arr.toString());
             if (arr.length() == 3) {
                 count++;
             }
