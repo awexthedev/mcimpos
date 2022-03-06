@@ -80,7 +80,6 @@ public class Tasks {
         for (Player player : Bukkit.getOnlinePlayers()) {
             JSONArray arr = completedTasks.get(player);
 
-            Bukkit.getLogger().info(arr.toString());
             if (arr.length() == 3) {
                 count++;
             }
