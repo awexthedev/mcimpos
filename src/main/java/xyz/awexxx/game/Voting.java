@@ -1,4 +1,7 @@
-package xyz.awexxx;
+package xyz.awexxx.game;
+
+import xyz.awexxx.main.ChatUtils;
+import xyz.awexxx.game.GameManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,11 +22,12 @@ public class Voting {
                 int voteCheck = Voting.checkVotes(player);
 
                 if (voteCheck > Bukkit.getOnlinePlayers().size() / 2) {
-                    if (Team.getTeam(player).getName().toString() == "Impostors") {
-                        Bukkit.broadcastMessage(player.getName() + " was the impostor!");
-                        Game.stop();
+                    if (Teams.getTeamName(player) == "Impostors") {
+                        ChatUtils.sendAllTitleMessage(player.getName() + " was the Impostor!", "Try again next time.");
+                        GameManager.stop();
                     } else {
                         player.setGameMode(GameMode.SPECTATOR);
+                        Teams.remove(player);
                         ChatUtils.sendAllTitleMessage(player.getName() + " was NOT the impostor!", "Look harder!");
                     }
                 } else ChatUtils.sendAllTitleMessage("Not enough votes!", "Keep going!");

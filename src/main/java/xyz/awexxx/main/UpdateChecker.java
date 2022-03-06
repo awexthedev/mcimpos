@@ -1,4 +1,4 @@
-package xyz.awexxx;
+package xyz.awexxx.main;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;

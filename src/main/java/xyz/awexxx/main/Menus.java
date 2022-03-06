@@ -1,15 +1,16 @@
-package xyz.awexxx;
+package xyz.awexxx.main;
+
+import xyz.awexxx.game.GameState;
+import xyz.awexxx.game.Tasks;
+import xyz.awexxx.game.Voting;
 
 import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.json.JSONObject;
 
 import redempt.redlib.inventorygui.InventoryGUI;
 import redempt.redlib.inventorygui.ItemButton;
@@ -118,6 +119,12 @@ public class Menus {
         return gui;
     }
 
+    public static InventoryGUI createSwipeMenu(Player executor) {
+        InventoryGUI gui = new InventoryGUI(Bukkit.createInventory(null, 9, "Card Swipe"));
+        addCard(gui, executor);
+        return gui;
+    }
+
     public static void displayVotingMenu(Player player) {
         InventoryGUI gui = createVotingMenu(player);
         gui.open(player);
@@ -143,27 +150,23 @@ public class Menus {
         gui.open(player);
     }
 
+    public static void displayCardMenu(Player player) {
+        InventoryGUI gui = createSwipeMenu(player);
+        gui.open(player);
+    }
+
     private static Integer count = 0;
     
     public static void addPlayers(InventoryGUI gui, Player p) {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            ItemStack myAwesomeSkull = new ItemStack(Material.LEGACY_SKULL_ITEM, 1, (short) 3);
-            SkullMeta myAwesomeSkullMeta = (SkullMeta) myAwesomeSkull.getItemMeta();
-            myAwesomeSkullMeta.setOwningPlayer(player);
-            myAwesomeSkull.setItemMeta(myAwesomeSkullMeta);
-            
-            ItemButton button = ItemButton.create(new ItemBuilder(myAwesomeSkull)
+            ItemButton button = ItemButton.create(new ItemBuilder(Material.RED_CONCRETE)
                 .setName(player.getName()), e -> {
-                JSONObject j = new JSONObject(JsonItemStack.toJson(e.getCurrentItem()));
-                Voting.vote(Bukkit.getPlayer(j.getJSONObject("item-meta").getJSONObject("extra-meta").get("owner").toString()));
+                Voting.vote(Bukkit.getPlayer(e.getCurrentItem().getItemMeta().getDisplayName()));
 
                 gui.destroy();
                 player.closeInventory();
 
-                ChatUtils.sendToOne("Complete!", "Continue with your tasks..", p);
-
                 player.setWalkSpeed(0.2f);
-                player.setFlySpeed(0.1f);
                 player.removePotionEffect(PotionEffectType.BLINDNESS);
             });
 
@@ -192,5 +195,21 @@ public class Menus {
 
         Random rand = new Random();
         gui.addButton(buttons, rand.nextInt(26 - 0 + 1) + 0);
+    }
+
+    public static void addCard(InventoryGUI gui, Player p) {
+            ItemButton buttons = ItemButton.create(new ItemBuilder(Material.GREEN_CONCRETE)
+            .setLore("Click me!")
+            .setName("Card"), e -> {
+                ItemButton newButton = ItemButton.create(new ItemBuilder(Material.GREEN_CONCRETE)
+                .setLore("Click me!")
+                .setName("Asteroid"), ev -> {
+                    p.closeInventory();
+                    gui.destroy();
+                    ChatUtils.sendToOne("Complete!", "Continue with your tasks..", p);
+            });
+            gui.addButton(newButton, 8);
+        });
+        gui.addButton(buttons, 0);
     }
 }

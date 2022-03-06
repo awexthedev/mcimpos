@@ -1,4 +1,8 @@
-package xyz.awexxx;
+package xyz.awexxx.main;
+
+import xyz.awexxx.game.GameState;
+import xyz.awexxx.game.Tasks;
+import xyz.awexxx.game.Teams;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -23,14 +27,13 @@ public class Events {
             Player p = e.getPlayer();
             Block clicked = e.getClickedBlock();
 
-            // Bukkit.getLogger().info(clicked.getType().toString());
-            
+            Bukkit.getLogger().info(clicked.getType().toString());
+
             if (clicked.getType().toString() == "ACACIA_BUTTON" && GameState.isState(GameState.IN_GAME))
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     player.playSound(player.getLocation(), Sound.AMBIENT_CAVE, 500.0f, 1.0f);
                     player.sendTitle(p.getName() + " hit the panic button!", "Who did it..", 10, 70, 20);
                     player.setWalkSpeed(0);
-                    player.setFlySpeed(0);
                     player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 999999, 1));
                 }
             else if (clicked.getType().toString() == "POLISHED_BLACKSTONE_BUTTON" && GameState.isState(GameState.IN_GAME) && Tasks.isActive(p, "Tie up in Electrical!")) {
@@ -42,10 +45,9 @@ public class Events {
                     player.playSound(player.getLocation(), Sound.AMBIENT_CAVE, 500.0f, 1.0f);
                     player.sendTitle(p.getName() + " found a dead body!", "Who did it..", 10, 70, 20);
                     player.setWalkSpeed(0);
-                    player.setFlySpeed(0);
                     player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 999999, 1));
                 }
-            } else if (clicked.getType().toString() == "IRON_TRAPDOOR" && Team.getTeam(e.getPlayer()).getName() == "Impostors" && GameState.isState(GameState.IN_GAME)) {
+            } else if (clicked.getType().toString() == "IRON_TRAPDOOR" && Teams.getTeamName(e.getPlayer()) == "Impostors" && GameState.isState(GameState.IN_GAME)) {
                 if (clicked.getLocation().getBlockX() == 135) {
                     Location vent1 = new Location(clicked.getWorld(), 137, 34, 376);
                     e.getPlayer().teleport(vent1);
@@ -64,24 +66,22 @@ public class Events {
                 Menus.displayGarbMenu(p);
             } else if (clicked.getType().toString() == "LIME_STAINED_GLASS_PANE" && GameState.isState(GameState.IN_GAME) && Tasks.isActive(p, "Hit the asteroids!")) {
                 Menus.displayAstMenu(p);
+            } else if (clicked.getType().toString() == "COBBLESTONE_SLAB" && GameState.isState(GameState.IN_GAME) && Tasks.isActive(p, "Swipe your card!")) {
+                Menus.displayCardMenu(p);
             }
         }
         
         @EventHandler
         public void onPlayerDeath(PlayerDeathEvent e) throws InterruptedException {
             if(GameState.isState(GameState.IN_GAME)) {
-                Team.getTeam(e.getEntity()).remove(e.getEntity());
+                // Teams.getTeam(e.getEntity()).remove(e.getEntity());
+                Teams.remove(e.getEntity());
 
-                if(Team.getTeam("Crewmates").getName().length() == 0) {
-                    ChatUtils.sendAllTitleMessage("The impostors win!", "Crewmates, do better!");
-                    Game.stop();
-                } else {
                     Block block = Bukkit.getWorld("amogus").getBlockAt(e.getEntity().getLocation());
                     block.setType(Material.CRIMSON_SIGN);
         
                     Location loc = new Location(Bukkit.getWorld("amogus"), 118, 34, 384);
                     e.getEntity().teleport(loc);
-                }
             } else {
                 Location loc = new Location(Bukkit.getWorld("amogus"), 118, 34, 384);
                 e.getEntity().teleport(loc);
@@ -105,7 +105,7 @@ public class Events {
             Player damaged = (Player) e.getEntity();
             Player damager = (Player) e.getDamager();
 
-            if (Team.getTeam(damaged).getName().equals(Team.getTeam(damager).getName())) {
+            if(Teams.getTeamName(damaged).equals(Teams.getTeamName(damager))) {
                 e.setCancelled(true);
             }
         }

@@ -7,7 +7,7 @@ Of course, this is no where as great as the actual Among Us. I *really* push sup
 
 ## Prequisites
 Java 17 + a~ 1.18(.1) server  
-This requires **LuckPerms** and **RedLib** to function. This may be removed in the future with permission checks, but for now it's required.  
+Anything this plugin requires is bundled in. This includes RedLib (it will create a config folder, don't be alarmed!).
 
 ## What does this offer?
 Core Among Us functions have been implemented into this plugin.  

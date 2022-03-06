@@ -1,4 +1,6 @@
-package xyz.awexxx;
+package xyz.awexxx.game;
+
+import xyz.awexxx.main.ChatUtils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -12,63 +14,63 @@ import org.bukkit.potion.PotionEffectType;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
-public class Game {
+public class GameManager {
     private static boolean canStart = false;
 
     public static void start() {
-        new Team("Crewmates");
-        new Team("Impostors");
-
         // New Tasks
         new Tasks("Tie up in Electrical!");
         new Tasks("Hit the asteroids!");
         new Tasks("Clear the garbage!");
         new Tasks("Get scanned in Medbay!");
+        new Tasks("Swipe your card!");
 
         GameState.setState(GameState.IN_GAME);
+        Player randomPlayer = Bukkit.getOnlinePlayers().stream().findAny().get();
 
-        int i = 0;
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.setWalkSpeed(0.2f);
             player.setHealth(0.5f);
-            player.setGameMode(GameMode.SURVIVAL);
+            player.setGameMode(GameMode.ADVENTURE);
             player.removePotionEffect(PotionEffectType.BLINDNESS);
             player.getInventory().clear();
     
             Location loc = new Location(Bukkit.getWorld("amogus"), 118, 34, 384);
             player.teleport(loc);
 
-            if(i >= Team.getAllTeams().size())
-                i = 0;
-            Team.getTeam(Team.getAllTeams().get(i++).getName()).add(player);
+            if(Teams.checkTeamLength("Impostors").equals(1)) {
+                Teams.add(player, "Crewmates");
+            } else Teams.add(randomPlayer, "Impostors");
 
             // Assign Tasks to crewmates
-            if(Team.getTeam(player).getName() == "Crewmates") {
+            if(Teams.getTeamName(player) == "Crewmates") {
                 Tasks.assignTask(player);
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Tasks.getAllActiveTasks(player).toString()));
-            } else if(Team.getTeam(player).getName() == "Impostors") {
+            } else if(Teams.getTeamName(player) == "Impostors") {
                 PlayerInventory inventory = player.getInventory();
-                inventory.addItem(new ItemStack(Material.IRON_SWORD));
+                inventory.setItem(1, new ItemStack(Material.IRON_SWORD));
             } 
             
-            ChatUtils.sendAllTitleMessage("You are on " + Team.getTeam(player).getName() + "!", "Who did it..");
+            ChatUtils.sendAllTitleMessage("You are on " + Teams.getTeamName(player) + "!", "Who did it..");
         }
     }
 
     public static void stop() {
+
+        Voting.clearVotes();
+        Tasks.clearTasks();
+
         for (Player player : Bukkit.getOnlinePlayers()) {
             GameState.setState(GameState.IN_LOBBY);
 
             player.setWalkSpeed(0.2f);
             player.removePotionEffect(PotionEffectType.BLINDNESS);
             player.getInventory().clear();
-
-            Voting.clearVotes();
-            Tasks.clearTasks();
+            player.closeInventory();
             
-            player.setGameMode(GameMode.SURVIVAL);
-            Team.getTeam(player).remove(player);
-            player.sendMessage("Successfully removed from team " + Team.getTeam(player).getName());
+            player.setGameMode(GameMode.ADVENTURE);
+            Teams.remove(player);
+            player.sendMessage("Successfully removed from team " + Teams.getTeamName(player));
         }
     }
 

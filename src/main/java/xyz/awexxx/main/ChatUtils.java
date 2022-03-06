@@ -1,4 +1,4 @@
-package xyz.awexxx;
+package xyz.awexxx.main;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

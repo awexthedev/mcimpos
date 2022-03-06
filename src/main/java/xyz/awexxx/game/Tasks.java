@@ -1,4 +1,6 @@
-package xyz.awexxx;
+package xyz.awexxx.game;
+
+import xyz.awexxx.main.ChatUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,7 +71,7 @@ public class Tasks {
                 ChatUtils.sendAllTitleMessage(player.getName() + " completed all tasks!", "Go faster!");
 
                 player.setGameMode(GameMode.SPECTATOR);
-                Team.getTeam(player).remove(player);
+                Teams.remove(player);
             }
         }
 
@@ -88,7 +90,7 @@ public class Tasks {
         if(count == Bukkit.getOnlinePlayers().size()) {
             count = 0;
             ChatUtils.sendAllTitleMessage("All crewmates have completed every task!", "Better luck next time, Imposter!");
-            Game.stop();
+            GameManager.stop();
             return true;
         }
 
