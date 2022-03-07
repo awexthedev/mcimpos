@@ -17,6 +17,7 @@ import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -27,7 +28,8 @@ public class Events {
             Player p = e.getPlayer();
             Block clicked = e.getClickedBlock();
 
-            Bukkit.getLogger().info(clicked.getType().toString());
+            // Bukkit.getLogger().info(clicked.getType().toString());
+            if(clicked == null) return;
 
             if (clicked.getType().toString() == "ACACIA_BUTTON" && GameState.isState(GameState.IN_GAME))
                 for (Player player : Bukkit.getOnlinePlayers()) {
@@ -74,7 +76,6 @@ public class Events {
         @EventHandler
         public void onPlayerDeath(PlayerDeathEvent e) throws InterruptedException {
             if(GameState.isState(GameState.IN_GAME)) {
-                // Teams.getTeam(e.getEntity()).remove(e.getEntity());
                 Teams.remove(e.getEntity());
 
                     Block block = Bukkit.getWorld("amogus").getBlockAt(e.getEntity().getLocation());
@@ -86,6 +87,12 @@ public class Events {
                 Location loc = new Location(Bukkit.getWorld("amogus"), 118, 34, 384);
                 e.getEntity().teleport(loc);
             }
+        }
+
+        @EventHandler
+        public void onPlayerRespawn(PlayerRespawnEvent e) throws InterruptedException {
+            Location loc = new Location(Bukkit.getWorld("amogus"), 118, 34, 384);
+            e.getPlayer().teleport(loc);
         }
 
         @EventHandler

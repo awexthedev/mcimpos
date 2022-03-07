@@ -28,6 +28,13 @@ public class GameManager {
         GameState.setState(GameState.IN_GAME);
         Player randomPlayer = Bukkit.getOnlinePlayers().stream().findAny().get();
 
+        Teams.possibleColors.add(Material.RED_CONCRETE);
+        Teams.possibleColors.add(Material.LIME_CONCRETE);
+        Teams.possibleColors.add(Material.PINK_CONCRETE);
+        Teams.possibleColors.add(Material.GRAY_CONCRETE);
+        Teams.possibleColors.add(Material.GREEN_CONCRETE);
+        Teams.possibleColors.add(Material.PURPLE_CONCRETE);
+
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.setWalkSpeed(0.2f);
             player.setHealth(0.5f);
@@ -69,8 +76,11 @@ public class GameManager {
             player.closeInventory();
             
             player.setGameMode(GameMode.ADVENTURE);
+            
+            ChatUtils.sendAllTitleMessage("Game over!", Teams.getTeam(player).get(0) + " was the impostor!");
+
+
             Teams.remove(player);
-            player.sendMessage("Successfully removed from team " + Teams.getTeamName(player));
         }
     }
 

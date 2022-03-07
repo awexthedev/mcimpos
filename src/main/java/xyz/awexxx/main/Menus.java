@@ -2,6 +2,7 @@ package xyz.awexxx.main;
 
 import xyz.awexxx.game.GameState;
 import xyz.awexxx.game.Tasks;
+import xyz.awexxx.game.Teams;
 import xyz.awexxx.game.Voting;
 
 import java.util.Random;
@@ -159,7 +160,7 @@ public class Menus {
     
     public static void addPlayers(InventoryGUI gui, Player p) {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            ItemButton button = ItemButton.create(new ItemBuilder(Material.RED_CONCRETE)
+            ItemButton button = ItemButton.create(new ItemBuilder(Teams.getColor(p))
                 .setName(player.getName()), e -> {
                 Voting.vote(Bukkit.getPlayer(e.getCurrentItem().getItemMeta().getDisplayName()));
 
@@ -170,6 +171,7 @@ public class Menus {
                 player.removePotionEffect(PotionEffectType.BLINDNESS);
             });
 
+            i = 0;
             gui.addButton(button, i);
             i++;
         }

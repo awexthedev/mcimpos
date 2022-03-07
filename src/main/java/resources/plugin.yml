@@ -1,7 +1,7 @@
 name: mcimpos
 main: xyz.awexxx.main.App
 description: MCImpos - Among Us, but in Minecraft
-version: 0.1.8
+version: 0.1.9
 website: https://github.com/awexthedev/mcimpos
 authors: [awex]
 api-version: 1.18

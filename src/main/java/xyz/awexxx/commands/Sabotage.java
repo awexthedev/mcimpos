@@ -10,7 +10,7 @@ import xyz.awexxx.game.Teams;
 import xyz.awexxx.main.Menus;
 
 public class Sabotage {
-    public class CommandSabatoge implements CommandExecutor {
+    public static class CommandSabatoge implements CommandExecutor {
         @Override
         public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
             Player p = (Player) sender;

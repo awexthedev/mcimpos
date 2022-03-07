@@ -13,8 +13,8 @@ public class App extends JavaPlugin {
         this.getCommand("startg").setExecutor(new xyz.awexxx.commands.StartGame.CommandStart());
         this.getCommand("endg").setExecutor(new xyz.awexxx.commands.EndGame.CommandStop());
         this.getCommand("submit").setExecutor(new xyz.awexxx.commands.Submit.CommandSubmit());
-        // this.getCommand("sabotage").setExecutor(new CommandSabatoge());
-        // this.getCommand("tasks").setExecutor(new CommandTasks());
+        this.getCommand("sabotage").setExecutor(new xyz.awexxx.commands.Sabotage.CommandSabatoge());
+        this.getCommand("tasks").setExecutor(new xyz.awexxx.commands.Task.CommandTasks());
 
         try {
             if (UpdateChecker.checkForUpdates() == false) {
