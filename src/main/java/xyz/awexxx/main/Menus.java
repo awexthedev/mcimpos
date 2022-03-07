@@ -86,6 +86,7 @@ public class Menus {
                     player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 999999, 1));
                 }
             }
+            ChatUtils.sendToOne("Sabotaged!", "No one can see now..", executor);
         });
 
         gui.addButton(lightsCont, 0);
@@ -160,7 +161,7 @@ public class Menus {
     
     public static void addPlayers(InventoryGUI gui, Player p) {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            ItemButton button = ItemButton.create(new ItemBuilder(Teams.getColor(p))
+            ItemButton button = ItemButton.create(new ItemBuilder(Material.valueOf("" + Teams.getColor(p) + "_CONCRETE"))
                 .setName(player.getName()), e -> {
                 Voting.vote(Bukkit.getPlayer(e.getCurrentItem().getItemMeta().getDisplayName()));
 

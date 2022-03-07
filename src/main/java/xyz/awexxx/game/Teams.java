@@ -1,7 +1,6 @@
 package xyz.awexxx.game;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
+import org.bukkit.Color;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -11,8 +10,8 @@ import java.util.List;
 public class Teams {
     private static List<String> crewmates = new ArrayList<String>();
     private static List<String> impostors = new ArrayList<String>();
-    private static HashMap<String, Material> colors = new HashMap<String, Material>();
-    public static List<Material> possibleColors = new ArrayList<Material>();
+    private static HashMap<String, String> colors = new HashMap<String, String>();
+    public static List<String> possibleColors = new ArrayList<String>();
 
     public static void add(Player player, String team) {
         if (team.equals("Crewmates")) {
@@ -25,11 +24,30 @@ public class Teams {
         }
     }
 
-    public static Material getColor(Player player) {
+    public static String getColor(Player player) {
         if(hasTeam(player)) {
-            Bukkit.getLogger().info(colors.get(player.getName()).toString());
             return colors.get(player.getName());
         } else return null;
+    }
+
+    public static Color getArmorColor(Player player) {
+        String s = colors.get(player.getName());
+        switch(s) {
+            case "RED":
+                return Color.RED;
+            case "PURPLE":
+                return Color.PURPLE;
+            case "LIME":
+                return Color.LIME;
+            case "PINK":
+                return Color.FUCHSIA;
+            case "GRAY":
+                return Color.GRAY;
+            case "GREEN":
+                return Color.GREEN;
+        }
+
+        return null;
     }
 
     public static void remove(Player player) {

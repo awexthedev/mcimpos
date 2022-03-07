@@ -4,6 +4,9 @@ import xyz.awexxx.game.GameState;
 import xyz.awexxx.game.Tasks;
 import xyz.awexxx.game.Teams;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -23,6 +26,8 @@ import org.bukkit.potion.PotionEffectType;
 
 public class Events {
     public static class EventListener implements Listener {
+        public static List<Block> signsPlaced = new ArrayList<Block>();
+
         @EventHandler
         public void onPlayerInteract(PlayerInteractEvent e) throws InterruptedException {
             Player p = e.getPlayer();
@@ -80,6 +85,7 @@ public class Events {
 
                     Block block = Bukkit.getWorld("amogus").getBlockAt(e.getEntity().getLocation());
                     block.setType(Material.CRIMSON_SIGN);
+                    signsPlaced.add(block);
         
                     Location loc = new Location(Bukkit.getWorld("amogus"), 118, 34, 384);
                     e.getEntity().teleport(loc);

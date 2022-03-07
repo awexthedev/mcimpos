@@ -6,9 +6,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.potion.PotionEffectType;
 
 import net.md_5.bungee.api.ChatMessageType;
@@ -28,12 +30,12 @@ public class GameManager {
         GameState.setState(GameState.IN_GAME);
         Player randomPlayer = Bukkit.getOnlinePlayers().stream().findAny().get();
 
-        Teams.possibleColors.add(Material.RED_CONCRETE);
-        Teams.possibleColors.add(Material.LIME_CONCRETE);
-        Teams.possibleColors.add(Material.PINK_CONCRETE);
-        Teams.possibleColors.add(Material.GRAY_CONCRETE);
-        Teams.possibleColors.add(Material.GREEN_CONCRETE);
-        Teams.possibleColors.add(Material.PURPLE_CONCRETE);
+        Teams.possibleColors.add("RED");
+        Teams.possibleColors.add("LIME");
+        Teams.possibleColors.add("PINK");
+        Teams.possibleColors.add("GRAY");
+        Teams.possibleColors.add("GREEN");
+        Teams.possibleColors.add("PURPLE");
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.setWalkSpeed(0.2f);
@@ -48,6 +50,13 @@ public class GameManager {
             if(Teams.checkTeamLength("Impostors").equals(1)) {
                 Teams.add(player, "Crewmates");
             } else Teams.add(randomPlayer, "Impostors");
+
+            // Add armor & dye
+            ItemStack chest = new ItemStack(Material.LEATHER_CHESTPLATE);
+            LeatherArmorMeta meta = (LeatherArmorMeta) chest.getItemMeta();
+            meta.setColor(Teams.getArmorColor(player));
+            chest.setItemMeta(meta);
+            player.getInventory().setChestplate(chest);
 
             // Assign Tasks to crewmates
             if(Teams.getTeamName(player) == "Crewmates") {
@@ -66,6 +75,9 @@ public class GameManager {
 
         Voting.clearVotes();
         Tasks.clearTasks();
+        for (Block block : xyz.awexxx.main.Events.EventListener.signsPlaced) {
+            block.breakNaturally();
+        }
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             GameState.setState(GameState.IN_LOBBY);
@@ -77,7 +89,7 @@ public class GameManager {
             
             player.setGameMode(GameMode.ADVENTURE);
             
-            ChatUtils.sendAllTitleMessage("Game over!", Teams.getTeam(player).get(0) + " was the impostor!");
+            ChatUtils.sendAllTitleMessage("Game over!", "§4" + Teams.getTeam(player).get(0) + "§r" + " was the impostor!");
 
 
             Teams.remove(player);
