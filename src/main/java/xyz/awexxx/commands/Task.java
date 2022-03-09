@@ -1,5 +1,6 @@
 package xyz.awexxx.commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,7 +15,7 @@ public class Task {
         public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
             Player p = (Player) sender;
             if (GameState.isState(GameState.IN_GAME)) {
-                p.sendMessage(Tasks.getAllActiveTasks(p));
+                p.sendMessage("Your current task is " + ChatColor.GREEN + Tasks.getAllActiveTasks(p));
             }
 
             return true;

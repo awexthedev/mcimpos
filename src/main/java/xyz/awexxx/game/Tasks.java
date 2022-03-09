@@ -102,7 +102,7 @@ public class Tasks {
     }
     
     public static String getAllActiveTasks(Player player) {
-        return activeTasks.get(player).toString();
+        return activeTasks.get(player);
     }
 
     public static boolean clearTasks() {
