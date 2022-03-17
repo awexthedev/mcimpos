@@ -1,13 +1,13 @@
-package xyz.awexxx.commands;
+package dev.thatalex.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import xyz.awexxx.game.GameState;
-import xyz.awexxx.game.Teams;
-import xyz.awexxx.main.Menus;
+import dev.thatalex.game.GameState;
+import dev.thatalex.game.Teams;
+import dev.thatalex.main.Menus;
 
 public class Sabotage {
     public static class CommandSabatoge implements CommandExecutor {

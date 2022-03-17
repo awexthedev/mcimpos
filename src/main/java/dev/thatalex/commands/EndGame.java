@@ -1,11 +1,11 @@
-package xyz.awexxx.commands;
+package dev.thatalex.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import xyz.awexxx.game.GameManager;
-import xyz.awexxx.game.GameState;
+import dev.thatalex.game.GameManager;
+import dev.thatalex.game.GameState;
 
 public class EndGame {
     public static class CommandStop implements CommandExecutor {

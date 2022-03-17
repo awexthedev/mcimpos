@@ -1,5 +1,5 @@
 name: mcimpos
-main: xyz.awexxx.main.App
+main: dev.thatalex.main.App
 description: MCImpos - Among Us, but in Minecraft
 version: 0.2.0
 website: https://github.com/awexthedev/mcimpos

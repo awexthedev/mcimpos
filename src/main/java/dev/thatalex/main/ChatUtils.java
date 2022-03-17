@@ -1,4 +1,4 @@
-package xyz.awexxx.main;
+package dev.thatalex.main;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

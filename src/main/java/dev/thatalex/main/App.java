@@ -1,20 +1,19 @@
-package xyz.awexxx.main;
+package dev.thatalex.main;
 
 import java.io.IOException;
-
 import org.bukkit.plugin.java.JavaPlugin;
 
-import xyz.awexxx.game.GameState;
+import dev.thatalex.game.GameState;
 
 public class App extends JavaPlugin {
     @Override
     public void onEnable() {
         GameState.setState(GameState.IN_LOBBY);
-        this.getCommand("startg").setExecutor(new xyz.awexxx.commands.StartGame.CommandStart());
-        this.getCommand("endg").setExecutor(new xyz.awexxx.commands.EndGame.CommandStop());
-        this.getCommand("submit").setExecutor(new xyz.awexxx.commands.Submit.CommandSubmit());
-        this.getCommand("sabotage").setExecutor(new xyz.awexxx.commands.Sabotage.CommandSabatoge());
-        this.getCommand("tasks").setExecutor(new xyz.awexxx.commands.Task.CommandTasks());
+        this.getCommand("startg").setExecutor(new dev.thatalex.commands.StartGame.CommandStart());
+        this.getCommand("endg").setExecutor(new dev.thatalex.commands.EndGame.CommandStop());
+        this.getCommand("submit").setExecutor(new dev.thatalex.commands.Submit.CommandSubmit());
+        this.getCommand("sabotage").setExecutor(new dev.thatalex.commands.Sabotage.CommandSabatoge());
+        this.getCommand("tasks").setExecutor(new dev.thatalex.commands.Task.CommandTasks());
 
         try {
             if (UpdateChecker.checkForUpdates() == false) {
@@ -33,4 +32,4 @@ public class App extends JavaPlugin {
     public void onDisable() {
         getLogger().info("MCImpos Plugin has stopped!");
     }
-}
+} 

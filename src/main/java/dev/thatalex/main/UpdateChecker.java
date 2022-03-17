@@ -1,4 +1,4 @@
-package xyz.awexxx.main;
+package dev.thatalex.main;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -13,7 +13,7 @@ public class UpdateChecker {
 
         Bukkit.getLogger().info("[MCImpos] Making sure the plugin is up-to-date.");
 
-        URL url = new URL("https://api.awexxx.xyz/v0/plugin/version/mcimpos");
+        URL url = new URL("https://api.thatalex.dev/v0/plugin/version/mcimpos");
         HttpURLConnection conn = (HttpURLConnection)url.openConnection();
         conn.setRequestMethod("GET");
         conn.connect();

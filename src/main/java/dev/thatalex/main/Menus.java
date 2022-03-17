@@ -1,9 +1,9 @@
-package xyz.awexxx.main;
+package dev.thatalex.main;
 
-import xyz.awexxx.game.GameState;
-import xyz.awexxx.game.Tasks;
-import xyz.awexxx.game.Teams;
-import xyz.awexxx.game.Voting;
+import dev.thatalex.game.GameState;
+import dev.thatalex.game.Tasks;
+import dev.thatalex.game.Teams;
+import dev.thatalex.game.Voting;
 
 import java.util.Random;
 

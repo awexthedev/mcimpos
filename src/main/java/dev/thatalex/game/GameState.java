@@ -1,4 +1,4 @@
-package xyz.awexxx.game;
+package dev.thatalex.game;
 
 public enum GameState {
     IN_LOBBY(true), IN_GAME(false), LIGHTS_OFF(false), PANIC_MODE(false), RESETTING(false);

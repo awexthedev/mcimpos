@@ -1,6 +1,6 @@
-package xyz.awexxx.game;
+package dev.thatalex.game;
 
-import xyz.awexxx.main.ChatUtils;
+import dev.thatalex.main.ChatUtils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -75,7 +75,7 @@ public class GameManager {
 
         Voting.clearVotes();
         Tasks.clearTasks();
-        for (Block block : xyz.awexxx.main.Events.EventListener.signsPlaced) {
+        for (Block block : dev.thatalex.main.Events.EventListener.signsPlaced) {
             block.breakNaturally();
         }
 

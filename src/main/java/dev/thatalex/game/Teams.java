@@ -1,4 +1,4 @@
-package xyz.awexxx.game;
+package dev.thatalex.game;
 
 import org.bukkit.Color;
 import org.bukkit.entity.Player;

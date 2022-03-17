@@ -1,6 +1,6 @@
-package xyz.awexxx.game;
+package dev.thatalex.game;
 
-import xyz.awexxx.main.ChatUtils;
+import dev.thatalex.main.ChatUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
