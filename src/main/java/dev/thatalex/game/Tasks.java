@@ -90,7 +90,7 @@ public class Tasks {
         if(count == Bukkit.getOnlinePlayers().size()) {
             count = 0;
             ChatUtils.sendAllTitleMessage("All crewmates have completed every task!", "Better luck next time, Imposter!");
-            GameManager.stop();
+            GameManager.stop("crewmates");
             return true;
         }
 

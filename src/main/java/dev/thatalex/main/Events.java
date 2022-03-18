@@ -20,6 +20,7 @@ import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -120,7 +121,16 @@ public class Events {
 
             if(Teams.getTeamName(damaged).equals(Teams.getTeamName(damager))) {
                 e.setCancelled(true);
+            } else if (Teams.getTeamName(damager).equals("Impostors")) {
+                Sql.addKill(damager.getUniqueId());
             }
+        }
+
+        @EventHandler
+        public void onPlayerJoin(PlayerJoinEvent e) throws InterruptedException {
+            Player p = e.getPlayer();
+            p.getInventory().clear();
+            Sql.addUser(p.getUniqueId());
         }
     }
 }

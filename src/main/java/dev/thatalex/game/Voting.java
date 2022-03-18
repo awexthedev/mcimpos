@@ -22,7 +22,7 @@ public class Voting {
 
                 if (voteCheck > Bukkit.getOnlinePlayers().size() / 2) {
                     if (Teams.getTeamName(player) == "Impostors") {
-                        GameManager.stop();
+                        GameManager.stop("crewmates");
                     } else {
                         player.setGameMode(GameMode.SPECTATOR);
                         Teams.remove(player);

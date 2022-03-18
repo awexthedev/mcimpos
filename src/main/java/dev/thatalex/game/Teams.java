@@ -81,4 +81,8 @@ public class Teams {
 
         return null;
     }
+
+    public static String getImpostor() {
+        return impostors.get(0);
+    }
 }

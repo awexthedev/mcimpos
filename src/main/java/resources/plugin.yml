@@ -1,7 +1,7 @@
 name: mcimpos
 main: dev.thatalex.main.App
 description: MCImpos - Among Us, but in Minecraft
-version: 0.2.0
+version: 0.2.2
 website: https://github.com/awexthedev/mcimpos
 authors: [awex]
 api-version: 1.18
@@ -31,8 +31,8 @@ commands:
     usage: /tasks
     permission: amogus.sabotage
     permission-message: You do not have permission to use this command.
-  imp:
-    description: View your current tasks.
-    usage: /imp
-    permission: amogus.sabotage
+  stats:
+    description: View your player stats.
+    usage: /stats
+    permission: amogus.stats
     permission-message: You do not have permission to use this command.

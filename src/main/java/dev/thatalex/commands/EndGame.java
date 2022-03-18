@@ -12,7 +12,7 @@ public class EndGame {
         @Override
         public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
             if (GameState.isState(GameState.IN_GAME))
-                GameManager.stop();
+                GameManager.stop("impostors");
             else
                 sender.sendMessage("Game is not running!");
 

@@ -1,6 +1,7 @@
 package dev.thatalex.game;
 
 import dev.thatalex.main.ChatUtils;
+import dev.thatalex.main.Sql;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -71,7 +72,17 @@ public class GameManager {
         }
     }
 
-    public static void stop() {
+    public static void stop(String winner) {
+        if(winner.equals("crewmates")) {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                if(Teams.getTeamName(player).equals("Crewmates")) {
+                    Sql.addWin(player.getUniqueId());
+                }
+            }
+        } else if (winner.equals("impostors")) {
+            Player impostor = Bukkit.getPlayer(Teams.getImpostor());
+            Sql.addWin(impostor.getUniqueId());
+        }
 
         Voting.clearVotes();
         Tasks.clearTasks();
