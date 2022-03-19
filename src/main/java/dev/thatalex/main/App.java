@@ -20,10 +20,9 @@ public class App extends JavaPlugin {
         this.getCommand("sabotage").setExecutor(new dev.thatalex.commands.Sabotage.CommandSabatoge());
         this.getCommand("tasks").setExecutor(new dev.thatalex.commands.Task.CommandTasks());
         this.getCommand("stats").setExecutor(new dev.thatalex.commands.Stats.CommandStats());
+        
         saveDefaultConfig();
-
         dev.thatalex.main.Sql.beginConnection();
-        if(config.getString("username") == null) getLogger().warning("Warning! You have not supplied SQL credentials. Please supply them in the config of this plugin.");
 
         try {
             if (UpdateChecker.checkForUpdates() == false) {

@@ -1,5 +1,6 @@
 ## This is the main configuration file for the MCImpos plugin!
 ## It contains all the data storage settings for this plugin (sql).
+enabled: false
 username:
 password:
 port:

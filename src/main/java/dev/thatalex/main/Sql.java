@@ -16,7 +16,7 @@ public class Sql {
     public static final String password = config.getString("password"); // Enter your password for the db
 
     // Constructs a JDBC URI using available config
-    public static final String url = "jdbc:mysql://" + config.getString("hostname") + ":" + config.getString("port") + "/" + config.getString("database");
+    public static final String jdbcServerUrl = "jdbc:mysql://" + config.getString("hostname") + ":" + config.getString("port") + "/" + config.getString("database");
 
     // Create the connection variable
     static Connection connection;
@@ -25,15 +25,27 @@ public class Sql {
     public static boolean beginConnection() {
         Bukkit.getLogger().info("[MCImpos] Establishing connection with SQL server..");
         try {
-            connection = DriverManager.getConnection(url, username, password);
+            if (config.getBoolean("enabled")) {
+                // Connect to the backend db
+                connection = DriverManager.getConnection(jdbcServerUrl, username, password);
 
-            // Create table if it doesn't exist
-            String sql = "CREATE TABLE IF NOT EXISTS users(uuid varchar(64), impKills varchar(5), wins varchar(5));";
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.executeUpdate();
+                // Create table if it doesn't exist
+                String sql = "CREATE TABLE IF NOT EXISTS users(uuid varchar(64), impKills varchar(5), wins varchar(5));";
+                PreparedStatement stmt = connection.prepareStatement(sql);
+                stmt.executeUpdate();
 
-            Bukkit.getLogger().info("[MCImpos] Successfully loaded data backend.");
-            return true;
+                Bukkit.getLogger().info("[MCImpos] Successfully loaded data backend using MYSQL.");
+                return true;
+            } else {
+                connection = DriverManager.getConnection("jdbc:sqlite:" + Bukkit.getPluginManager().getPlugin("mcimpos").getDataFolder() + "\\storage.db", username, password);
+                // Create table if it doesn't exist
+                String sql = "CREATE TABLE IF NOT EXISTS users(uuid varchar(64), impKills varchar(5), wins varchar(5));";
+                PreparedStatement stmt = connection.prepareStatement(sql);
+                stmt.executeUpdate();
+
+                Bukkit.getLogger().info("[MCImpos] Successfully loaded data backend using SQLITE.");
+                return true;
+            }
         } catch (SQLException e) {
             Bukkit.getLogger().warning("Uh oh.. I wasn't able to successfully connect to the SQL server. Double check your credentials and try again.\nError trace: " + e.toString());
             return false;
@@ -44,6 +56,7 @@ public class Sql {
         Bukkit.getLogger().info("[MCImpos] Shutting down SQL connection..");
 
         try {
+            // Terminate the connection for good measure
             if (connection!=null && !connection.isClosed()) {
                 connection.close();
                 return true;
@@ -58,6 +71,7 @@ public class Sql {
     // The juicy stuff. Updating, deleting, you name it.
     public static ResultSet fetchUserData(UUID uuid) {
         try {
+            // Get the users data for easy formatting
             String sql = "SELECT * FROM users WHERE uuid=?";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, uuid.toString());
@@ -71,6 +85,7 @@ public class Sql {
 
     public static boolean addWin(UUID uuid) {
         try {
+            // Fetch the users current win count
             ResultSet data = fetchUserData(uuid);
             if(data == null) return false;
 
@@ -83,6 +98,7 @@ public class Sql {
             String sql = "UPDATE users SET wins='" + winsInt + "' WHERE uuid='" + uuid.toString() + "'";
             PreparedStatement stmt = connection.prepareStatement(sql);
 
+            // aaaaaand update
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -93,13 +109,16 @@ public class Sql {
 
     public static boolean addKill(UUID uuid) {
         try {
+            // Fetch the users data
             ResultSet data = fetchUserData(uuid);
             if(data == null) return false;
 
+            // Fetch the users current kills count & parse it as an integer
             String kills = data.getString("impKills");
             int killsInt = Integer.parseInt(kills);
             killsInt++;
 
+            // Format the statement w/ the users uuid and reparse the integer as a string
             String sql = "UPDATE users SET wins='" + killsInt + "' WHERE uuid='" + uuid.toString() + "'";
             PreparedStatement stmt = connection.prepareStatement(sql);
 
@@ -112,8 +131,10 @@ public class Sql {
     }
 
     public static boolean addUser(UUID uuid) {
+        // If the users object exists, don't continue
         if(fetchUserData(uuid) != null) return true;
         try {
+            // Create & format the insert statement
             String sql = "INSERT INTO users(uuid, impKills, wins) VALUES('" + uuid.toString() + "', '0', '0')";
             PreparedStatement stmt = connection.prepareStatement(sql);
 

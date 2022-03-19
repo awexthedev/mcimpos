@@ -73,15 +73,17 @@ public class GameManager {
     }
 
     public static void stop(String winner) {
-        if(winner.equals("crewmates")) {
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                if(Teams.getTeamName(player).equals("Crewmates")) {
-                    Sql.addWin(player.getUniqueId());
+        if(winner != null) {
+            if(winner.equals("crewmates")) {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    if(Teams.getTeamName(player).equals("Crewmates")) {
+                        Sql.addWin(player.getUniqueId());
+                    }
                 }
+            } else if (winner.equals("impostors")) {
+                Player impostor = Bukkit.getPlayer(Teams.getImpostor());
+                Sql.addWin(impostor.getUniqueId());
             }
-        } else if (winner.equals("impostors")) {
-            Player impostor = Bukkit.getPlayer(Teams.getImpostor());
-            Sql.addWin(impostor.getUniqueId());
         }
 
         Voting.clearVotes();
