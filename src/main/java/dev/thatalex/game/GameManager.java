@@ -66,7 +66,7 @@ public class GameManager {
             } else if(Teams.getTeamName(player) == "Impostors") {
                 PlayerInventory inventory = player.getInventory();
                 inventory.setItem(1, new ItemStack(Material.IRON_SWORD));
-            } 
+            }
             
             ChatUtils.sendAllTitleMessage("You are on " + Teams.getTeamName(player) + "!", "Who did it..");
         }

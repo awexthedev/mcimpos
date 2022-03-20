@@ -23,37 +23,29 @@ public class Sql {
 
     // Begin & shut down methods, creating tables if not exists.
     public static boolean beginConnection() {
-        Bukkit.getLogger().info("[MCImpos] Establishing connection with SQL server..");
+        LoggingUtils.infoLog("Establishing SQL connection..");
         try {
-            if (config.getBoolean("enabled")) {
-                // Connect to the backend db
+            if(config.getBoolean("enabled")) {
                 connection = DriverManager.getConnection(jdbcServerUrl, username, password);
-
-                // Create table if it doesn't exist
-                String sql = "CREATE TABLE IF NOT EXISTS users(uuid varchar(64), impKills varchar(5), wins varchar(5));";
-                PreparedStatement stmt = connection.prepareStatement(sql);
-                stmt.executeUpdate();
-
-                Bukkit.getLogger().info("[MCImpos] Successfully loaded data backend using MYSQL.");
-                return true;
             } else {
-                connection = DriverManager.getConnection("jdbc:sqlite:" + Bukkit.getPluginManager().getPlugin("mcimpos").getDataFolder() + "\\storage.db", username, password);
-                // Create table if it doesn't exist
-                String sql = "CREATE TABLE IF NOT EXISTS users(uuid varchar(64), impKills varchar(5), wins varchar(5));";
-                PreparedStatement stmt = connection.prepareStatement(sql);
-                stmt.executeUpdate();
-
-                Bukkit.getLogger().info("[MCImpos] Successfully loaded data backend using SQLITE.");
-                return true;
+                connection = DriverManager.getConnection("jdbc:sqlite:" + Bukkit.getPluginManager().getPlugin("mcimpos").getDataFolder() + "\\storage.db", username, password); 
             }
+
+            // Create table if it doesn't exist
+            String sql = "CREATE TABLE IF NOT EXISTS users(uuid varchar(64), impKills varchar(5), wins varchar(5));";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.executeUpdate();
+
+            LoggingUtils.infoLog("Successfully loaded data backend.");
+            return true;
         } catch (SQLException e) {
-            Bukkit.getLogger().warning("Uh oh.. I wasn't able to successfully connect to the SQL server. Double check your credentials and try again.\nError trace: " + e.toString());
+            LoggingUtils.errorLog("Uh oh.. I wasn't able to successfully use SQL. Double check your credentials and try again.\nError trace: " + e.toString());
             return false;
         }
     }
 
     public static boolean shutDownConnection() {
-        Bukkit.getLogger().info("[MCImpos] Shutting down SQL connection..");
+        LoggingUtils.infoLog("Shutting down SQL connection..");
 
         try {
             // Terminate the connection for good measure
@@ -102,7 +94,7 @@ public class Sql {
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
-            Bukkit.getLogger().warning("Failed to create user entry!\n" + e.toString());
+            LoggingUtils.errorLog("Failed to create user entry! " + e.toString());
             return false;
         }
     }
@@ -125,7 +117,7 @@ public class Sql {
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
-            Bukkit.getLogger().warning("Failed to create user entry!\n" + e.toString());
+            LoggingUtils.errorLog("Failed to create user entry! " + e.toString());
             return false;
         }
     }
@@ -141,7 +133,7 @@ public class Sql {
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
-            Bukkit.getLogger().warning("Failed to create user entry!\n" + e.toString());
+            LoggingUtils.errorLog("Failed to create user entry! " + e.toString());
             return false;
         }
     }

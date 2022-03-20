@@ -25,9 +25,7 @@ public class App extends JavaPlugin {
         dev.thatalex.main.Sql.beginConnection();
 
         try {
-            if (UpdateChecker.checkForUpdates() == false) {
-                getLogger().warning("I was not able to properly check for updates. The API is likely offline. Please check the GitHub repo manually; https://github.com/awexthedev/mcimpos");
-            } else getLogger().info("Up to date! Moving on!");
+            UpdateChecker.checkForUpdates();
         } catch (IOException e) {
             getLogger().warning("Something went wrong when checking for updates. Please do this manually; https://github.com/awexthedev/mcimpos.");
         }
