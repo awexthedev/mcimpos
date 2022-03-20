@@ -13,7 +13,7 @@ public class Submit {
         @Override
         public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
             Player p = (Player) sender;
-            if (GameState.isState(GameState.IN_GAME)) {
+            if (GameState.isState(GameState.PANIC_MODE)) {
                 Menus.displayVotingMenu(p);
             }
 

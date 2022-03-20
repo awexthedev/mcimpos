@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import dev.thatalex.game.GameManager;
 import dev.thatalex.game.GameState;
 
 public class App extends JavaPlugin {
@@ -37,8 +38,13 @@ public class App extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        getLogger().info("MCImpos Plugin has stopped!");
         dev.thatalex.main.Sql.shutDownConnection();
+        if (GameState.isState(GameState.IN_GAME)) {
+            LoggingUtils.infoLog("Shutting down open games..");
+            GameManager.stop(null);
+        } 
+
+        getLogger().info("MCImpos Plugin has stopped!");
     }
 
     // Config Key

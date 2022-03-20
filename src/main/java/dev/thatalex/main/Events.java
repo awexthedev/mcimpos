@@ -43,6 +43,8 @@ public class Events {
                     player.sendTitle(p.getName() + " hit the panic button!", "Who did it..", 10, 70, 20);
                     player.setWalkSpeed(0);
                     player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 999999, 1));
+
+                    GameState.setState(GameState.PANIC_MODE);
                 }
             else if (clicked.getType().toString() == "POLISHED_BLACKSTONE_BUTTON" && GameState.isState(GameState.IN_GAME) && Tasks.isActive(p, "Tie up in Electrical!")) {
                 Menus.displayElectricMenu(p);
@@ -54,6 +56,8 @@ public class Events {
                     player.sendTitle(p.getName() + " found a dead body!", "Who did it..", 10, 70, 20);
                     player.setWalkSpeed(0);
                     player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 999999, 1));
+
+                    GameState.setState(GameState.PANIC_MODE);
                 }
             } else if (clicked.getType().toString() == "IRON_TRAPDOOR" && Teams.getTeamName(e.getPlayer()) == "Impostors" && GameState.isState(GameState.IN_GAME)) {
                 if (clicked.getLocation().getBlockX() == 135) {

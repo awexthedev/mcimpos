@@ -82,6 +82,11 @@ public class Teams {
         return null;
     }
 
+    public static void clearTeams() {
+        crewmates.clear();
+        impostors.clear();
+    }
+
     public static String getImpostor() {
         return impostors.get(0);
     }

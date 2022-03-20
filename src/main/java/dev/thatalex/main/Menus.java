@@ -206,7 +206,7 @@ public class Menus {
             .setName("Card"), e -> {
                 ItemButton newButton = ItemButton.create(new ItemBuilder(Material.GREEN_CONCRETE)
                 .setLore("Click me!")
-                .setName("Asteroid"), ev -> {
+                .setName("Card"), ev -> {
                     p.closeInventory();
                     gui.destroy();
                     ChatUtils.sendToOne("Complete!", "Continue with your tasks..", p);

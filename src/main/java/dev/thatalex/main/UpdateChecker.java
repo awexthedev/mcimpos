@@ -24,12 +24,11 @@ public class UpdateChecker {
                 String temp = scan.nextLine();
                 JSONObject obj = new JSONObject(temp);
                 if(Bukkit.getPluginManager().getPlugin("mcimpos").getDescription().getVersion().equals(obj.getJSONObject("data").getString("version"))) {
-                    scan.close();
                     LoggingUtils.infoLog("Plugin is up-to-date! Moving on..");
                 } else LoggingUtils.warningLog("MCImpos is out-of-date. The latest version is " + obj.getJSONObject("data").getString("version") + ", while the version you are on is " + Bukkit.getPluginManager().getPlugin("mcimpos").getDescription().getVersion() + ".");
             }
+            scan.close();
         } else LoggingUtils.warningLog("I was unable to check for updates. The API may be offline. Please check via the GitHub releases page. (https://github.com/awexthedev/mcimpos/releases)");
-
         return true;
     }
 }

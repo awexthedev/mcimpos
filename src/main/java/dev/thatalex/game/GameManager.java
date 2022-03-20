@@ -74,7 +74,7 @@ public class GameManager {
 
     public static void stop(String winner) {
         if(winner != null) {
-            if(winner.equals("crewmates")) {
+            if(winner.equals("crewmates") && Bukkit.getOnlinePlayers().size() != 1) {
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     if(Teams.getTeamName(player).equals("Crewmates")) {
                         Sql.addWin(player.getUniqueId());
@@ -92,9 +92,9 @@ public class GameManager {
             block.breakNaturally();
         }
 
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            GameState.setState(GameState.IN_LOBBY);
+        GameState.setState(GameState.IN_LOBBY);
 
+        for (Player player : Bukkit.getOnlinePlayers()) {
             player.setWalkSpeed(0.2f);
             player.removePotionEffect(PotionEffectType.BLINDNESS);
             player.getInventory().clear();
@@ -103,10 +103,9 @@ public class GameManager {
             player.setGameMode(GameMode.ADVENTURE);
             
             ChatUtils.sendAllTitleMessage("Game over!", "§4" + Teams.getTeam(player).get(0) + "§r" + " was the impostor!");
-
-
-            Teams.remove(player);
         }
+        
+        Teams.clearTeams();
     }
 
     public static boolean canStart() {

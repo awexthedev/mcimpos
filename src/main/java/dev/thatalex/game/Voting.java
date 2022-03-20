@@ -27,6 +27,7 @@ public class Voting {
                         player.setGameMode(GameMode.SPECTATOR);
                         Teams.remove(player);
                         ChatUtils.sendAllTitleMessage(player.getName() + " was NOT the impostor!", "Look harder!");
+                        GameState.setState(GameState.IN_GAME);
                     }
                 } else ChatUtils.sendAllTitleMessage("Not enough votes!", "Keep going!");
             }

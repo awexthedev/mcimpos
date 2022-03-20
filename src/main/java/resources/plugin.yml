@@ -1,7 +1,7 @@
 name: mcimpos
 main: dev.thatalex.main.App
 description: MCImpos - Among Us, but in Minecraft
-version: 0.2.2-rev2
+version: 0.2.2-rev3
 website: https://github.com/awexthedev/mcimpos
 authors: [awex]
 api-version: 1.18
